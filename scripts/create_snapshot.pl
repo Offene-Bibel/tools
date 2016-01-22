@@ -2,6 +2,7 @@
 use v5.12;
 use strict;
 
+use FindBin;
 use Getopt::Long;
 use POSIX qw( strftime );
 use File::Slurper qw( read_text write_text );
@@ -13,7 +14,7 @@ my @fileList = qw(
     drupal/sites/default/settings.php
     drupal/sites/all/modules/mwi/mwi.config
 );
-my $resourceFolder = "resources";
+my $resourceFolder = "$FindBin::Bin/resources";
 my $webFolder = "/kunden/248589_32760/webseiten/offene-bibel.de";
 my $snapshotFolder = "snapshot-" . strftime("%Y-%m-%d", localtime);
 my $outputFile = $snapshotFolder . ".tgz";
