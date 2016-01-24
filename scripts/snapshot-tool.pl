@@ -14,7 +14,6 @@ my @fileList = qw(
     drupal/sites/default/settings.php
     drupal/sites/all/modules/mwi/mwi.config
 );
-my $resourceFolder = "$FindBin::Bin/resources";
 my $webFolder = "/kunden/248589_32760/webseiten/offene-bibel.de";
 my $snapshotFolder = "snapshot-" . strftime("%Y-%m-%d", localtime);
 my $outputFile = $snapshotFolder . ".tgz";
@@ -95,11 +94,6 @@ elsif ( $mode eq 'package' ) {
 
     print 'Copying files... ';
         print `cp -r $webFolder $snapshotFolder/offene-bibel.de`;
-    say 'done';
-
-    # copy supplementary files (documentation, helper scripts, ...)
-    print 'Copying supplementary files... ';
-        print `cp $resourceFolder/* $snapshotFolder`;
     say 'done';
 
     print 'Removing templated files... ';
