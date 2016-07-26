@@ -29,10 +29,10 @@ my $bot = MediaWiki::Bot->new({
 
 
 my %tags = ();
-my $repls;
+my $count = 100;
 
 for my $book ( @books ) {
-    for (my $chapter = 1; $chapter <= $book->{chapterCount}; $chapter++ ) {
+    for ( my $chapter = 1; $chapter <= $book->{chapterCount}; $chapter++ ) {
         my $bookname = $book->{name};
         my $chaptername = $bookname . '_' . $chapter;
 
@@ -43,6 +43,8 @@ for my $book ( @books ) {
             my $changed = 0;
 
             my $substs;
+            my $repls = '';
+
             $substs = $text =~ s/\{\{Lesefassung zu prüfen([^}]*)\}\}/{{Ungeprüfte Lesefassung$1}}/;
             $repls .= "\nReplacing \"$&\" with \"{{Ungeprüfte Lesefassung$1}}\" in $chaptername, $substs times." if $substs;
             $changed = 1 if $substs;
@@ -65,11 +67,12 @@ for my $book ( @books ) {
                 });
 
                 if ( ! defined $error ) {
-                    say "error: $chaptername, $bot->{ error }->{ code }, $bot->{ error }->{ details }";
+                    say "error: $chaptername, $bot->{ error }->{ code }, $bot->{ error }->{ details } | $repls";
                 }
                 else {
-                    say "success: $chaptername";
+                    say "success: $chaptername | $repls";
                 }
+                #exit 0 unless $count--;
             }
         }
 
@@ -87,7 +90,6 @@ for my $book ( @books ) {
 }
 
 #p( %tags );
-say $repls;
 
 $bot->logout();
 
